@@ -1,0 +1,592 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Compressa VF';
+    src: url('https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2') format('woff2-variations');
+    font-style: normal;
+    font-weight: 100 900;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #ffffff;
+    color: #000000;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background: #000000;
+    color: #ffffff;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode nav {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid #333333;
+}
+
+.nav-links {
+    display: flex;
+    gap: 60px;
+}
+
+nav a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode nav a {
+    color: #ffffff;
+}
+
+nav a:hover {
+    opacity: 0.6;
+}
+
+.nav-right {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 12px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .theme-toggle {
+    background: #000000;
+    border-color: #ffffff;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: #000000;
+    transition: stroke 0.3s ease;
+}
+
+body.dark-mode .theme-toggle svg {
+    stroke: #ffffff;
+}
+
+.github-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+}
+
+body.dark-mode .github-btn {
+    background: #000000;
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.github-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #000000;
+    transition: fill 0.3s ease;
+}
+
+body.dark-mode .github-btn svg {
+    fill: #ffffff;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    padding-top: 80px;
+}
+
+.left-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 clamp(15px, 5vw, 80px);
+    margin-top: -100px;
+}
+
+@media (max-width: 1200px) {
+    .left-side {
+        margin-top: 0;
+    }
+}
+
+.title {
+    font-weight: 300;
+    letter-spacing: -1px;
+    margin-bottom: clamp(20px, 3vh, 40px);
+    line-height: 1.1;
+    margin-left: -3px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.title-large {
+    font-size: clamp(28px, 10vw, 160px);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Compressa VF', sans-serif;
+    font-weight: 100;
+    text-transform: uppercase;
+    user-select: none;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.title-large span {
+    display: inline-block;
+    font-variation-settings: 'wght' 400, 'wdth' 100, 'ital' 0;
+    transition: font-variation-settings 0.05s ease-out;
+}
+
+.title-small {
+    font-size: clamp(16px, 4vw, 60px);
+    display: block;
+}
+
+
+.buttons {
+    display: flex;
+    gap: clamp(10px, 2vw, 20px);
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: clamp(10px, 2vh, 16px) clamp(24px, 4vw, 40px);
+    font-size: clamp(14px, 2vw, 25px);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: 1.7px solid #000000;
+    background: transparent;
+    color: #000000;
+    transition: all 0.3s ease;
+    font-weight: 400;
+    min-width: fit-content;
+}
+
+body.dark-mode .btn {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+body.dark-mode .btn:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(15px, 5vw, 80px);
+}
+
+#physics-container {
+    width: 100%;
+    max-width: 500px;
+    height: 600px;
+    max-height: 70vh;
+    border: 1px solid #000000;
+    position: relative;
+    background: #ffffff;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+body.dark-mode #physics-container {
+    border: 1px solid #ffffff;
+    background: #000000;
+}
+
+canvas {
+    display: block;
+}
+
+.category-label {
+    position: absolute;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* About page styles */
+.about-columns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150%;
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 80 80px;
+    gap: 0;
+}
+
+.about-column {
+    flex: 1;
+    max-width: 450px;
+}
+
+.about-spacer {
+    flex: 0.5;
+    min-width: 250px;
+    max-width: 350px;
+    position: relative;
+    height: 350px;
+}
+
+#ascii-art-container {
+    position: relative;
+    width: 85%;
+    height: 85%;
+}
+
+#ascii-art-container canvas {
+    position: absolute;
+    left: 10%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+#ascii-art-container pre {
+    margin: 0;
+    user-select: none;
+    padding: 0;
+    line-height: 1em;
+    text-align: left;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
+    background-attachment: fixed;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    z-index: 9;
+    mix-blend-mode: difference;
+}
+
+.about-column h2 {
+    font-size: clamp(24px, 4vw, 48px);
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+}
+
+.about-column p {
+    font-size: clamp(14px, 1.5vw, 18px);
+    line-height: 1.6;
+}
+
+/* Large screens - start transitioning */
+@media (max-width: 1400px) {
+    .left-side {
+        padding: 0 60px;
+    }
+
+    .right-side {
+        padding: 60px;
+    }
+}
+
+/* Medium-large screens */
+@media (max-width: 1200px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .left-side {
+        padding: 40px;
+        min-height: 50vh;
+        justify-content: center;
+    }
+
+    .right-side {
+        padding: 40px;
+        min-height: 50vh;
+    }
+
+    #physics-container {
+        max-width: 400px;
+        height: 500px;
+    }
+
+    .nav-right {
+        right: 20px;
+    }
+
+    .buttons {
+        flex-wrap: wrap;
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    nav {
+        height: 60px;
+    }
+
+    .container {
+        padding-top: 60px;
+    }
+
+    .nav-links {
+        gap: 30px;
+    }
+
+    nav a {
+        font-size: 18px;
+    }
+
+    .github-btn {
+        font-size: 18px;
+        padding: 6px 12px;
+    }
+
+    .btn {
+        padding: 14px 32px;
+        font-size: 22px;
+    }
+
+    .left-side {
+        padding: 30px;
+    }
+
+    .right-side {
+        padding: 30px;
+    }
+
+    #physics-container {
+        max-width: 350px;
+        height: 450px;
+    }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+    nav {
+        height: 60px;
+        gap: 20px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    nav a {
+        font-size: 16px;
+    }
+
+    .github-btn span {
+        display: none;
+    }
+
+    .nav-right {
+        right: 15px;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 12px 28px;
+        font-size: 18px;
+    }
+
+    .left-side {
+        padding: 20px;
+    }
+
+    .right-side {
+        padding: 20px;
+    }
+
+    #physics-container {
+        max-width: 300px;
+        height: 400px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    nav {
+        height: 50px;
+        gap: 10px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .theme-toggle {
+        padding: 8px;
+    }
+
+    .theme-toggle svg,
+    .github-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .nav-right {
+        right: 10px;
+        gap: 8px;
+    }
+
+    .container {
+        padding-top: 50px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .left-side {
+        padding: 20px 15px;
+    }
+
+    .right-side {
+        padding: 20px 15px;
+    }
+
+    #physics-container {
+        max-width: 100%;
+        width: 100%;
+        height: 350px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 400px) {
+    .btn {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+
+    #physics-container {
+        height: 300px;
+    }
+}
+
+/* About page responsive styles */
+@media (max-width: 1200px) {
+    .about-columns {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .about-spacer {
+        min-width: 100%;
+        max-width: 100%;
+        height: 300px;
+        order: 2;
+    }
+
+    .about-column:first-child {
+        order: 1;
+    }
+
+    .about-column:last-child {
+        order: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-columns {
+        padding: 0 40px;
+    }
+
+    .about-spacer {
+        height: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-columns {
+        padding: 0 20px;
+    }
+
+    .about-spacer {
+        height: 200px;
+    }
+}
+

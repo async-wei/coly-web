@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry Olympiad Questions</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="about.html">ABOUT</a>
+            <a href="https://www.acs.org" target="_blank">ACS</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+            <a href="https://github.com" class="github-btn" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>Github</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="left-side">
+            <h1 class="title">
+                <span class="title-large" id="interactive-text">
+                    <span>C</span><span>h</span><span>e</span><span>m</span><span>i</span><span>s</span><span>t</span><span>r</span><span>y</span>
+                </span>
+                <span class="title-small shuffle-text" id="shuffle-text">Olympiad Questions</span>
+            </h1>
+            <div class="buttons">
+                <button class="btn" onclick="handleStart()">START</button>
+                <button class="btn" onclick="handleCategories()">CATEGORIES</button>
+            </div>
+        </div>
+
+        <div class="right-side">
+            <div id="physics-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive Text Pressure Effect
+        (function() {
+            const textElement = document.getElementById('interactive-text');
+            if (!textElement) return;
+
+            const spans = textElement.querySelectorAll('span');
+            const mouse = { x: 0, y: 0 };
+            const cursor = { x: 0, y: 0 };
+
+            // Calculate distance between two points
+            const dist = (a, b) => {
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+                return Math.sqrt(dx * dx + dy * dy);
+            };
+
+            // Initialize cursor position to center of text
+            const initCursor = () => {
+                const rect = textElement.getBoundingClientRect();
+                mouse.x = rect.left + rect.width / 2;
+                mouse.y = rect.top + rect.height / 2;
+                cursor.x = mouse.x;
+                cursor.y = mouse.y;
+            };
+
+            // Track mouse movement
+            const handleMouseMove = (e) => {
+                cursor.x = e.clientX;
+                cursor.y = e.clientY;
+            };
+
+            const handleTouchMove = (e) => {
+                const touch = e.touches[0];
+                cursor.x = touch.clientX;
+                cursor.y = touch.clientY;
+            };
+
+            // Animation loop
+            const animate = () => {
+                // Smooth cursor following
+                mouse.x += (cursor.x - mouse.x) / 15;
+                mouse.y += (cursor.y - mouse.y) / 15;
+
+                const textRect = textElement.getBoundingClientRect();
+                const maxDist = textRect.width / 2;
+
+                spans.forEach(span => {
+                    const rect = span.getBoundingClientRect();
+                    const charCenter = {
+                        x: rect.x + rect.width / 2,
+                        y: rect.y + rect.height / 2
+                    };
+
+                    const d = dist(mouse, charCenter);
+
+                    // Calculate font variation values based on distance
+                    const getAttr = (distance, minVal, maxVal) => {
+                        const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+                        return Math.max(minVal, val + minVal);
+                    };
+
+                    const wdth = Math.floor(getAttr(d, 5, 200));
+                    const wght = Math.floor(getAttr(d, 100, 900));
+                    const italVal = getAttr(d, 0, 1).toFixed(2);
+
+                    span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
+                });
+
+                requestAnimationFrame(animate);
+            };
+
+            // Initialize
+            initCursor();
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('touchmove', handleTouchMove, { passive: false });
+            window.addEventListener('resize', initCursor);
+
+            // Start animation
+            animate();
+        })();
+
+        const categories = [
+            'THERMO', 'KINETICS', 'EQUILIBRIUM', 'ACIDS/BASES',
+            'REDOX', 'ATOMIC', 'BONDING', 'ORGANIC',
+            'STOICH', 'LAB'
+        ];
+
+        const { Engine, Render, Runner, Bodies, Composite, Mouse, MouseConstraint, Events } = Matter;
+
+        const container = document.getElementById('physics-container');
+
+        // Wait for container to have proper dimensions
+        function initPhysics() {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            if (width === 0 || height === 0) {
+                setTimeout(initPhysics, 50);
+                return;
+            }
+
+        const engine = Engine.create();
+        const world = engine.world;
+        world.gravity.y = 0.5; // Better gravity for falling
+
+        const render = Render.create({
+            element: container,
+            engine: engine,
+            options: {
+                width: width,
+                height: height,
+                wireframes: false,
+                background: '#ffffff'
+            }
+        });
+
+        // Fix Canvas2D warning - need to replace the context
+        const oldCanvas = render.canvas;
+        const newContext = oldCanvas.getContext('2d', { willReadFrequently: true });
+        render.context = newContext;
+
+        // Create walls
+        const wallThickness = 50;
+        const walls = [
+            Bodies.rectangle(width / 2, height + wallThickness / 2, width, wallThickness, { 
+                isStatic: true,
+                render: { fillStyle: '#ffffff' }
+            }),
+            Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height, { 
+                isStatic: true,
+                render: { fillStyle: '#ffffff' }
+            }),
+            Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height, { 
+                isStatic: true,
+                render: { fillStyle: '#ffffff' }
+            })
+        ];
+
+        // Create top wall (will be added after blocks fall)
+        const topWall = Bodies.rectangle(width / 2, -wallThickness / 2, width, wallThickness, { 
+            isStatic: true,
+            render: { fillStyle: '#ffffff' }
+        });
+
+        // Create blocks - scale based on container size
+        const blocks = [];
+        const blockWidth = Math.min(140, width * 0.28);
+        const blockHeight = Math.min(50, height * 0.08);
+        const colors = ['#000000', '#1a1a1a', '#333333', '#4d4d4d', '#666666'];
+
+        categories.forEach((category, index) => {
+            // Distribute blocks across the width
+            const col = index % 3; // 3 columns
+            const row = Math.floor(index / 3);
+            const x = (width / 4) * (col + 1);
+            const y = -100 - (row * 80);
+
+            const block = Bodies.rectangle(x, y, blockWidth, blockHeight, {
+                restitution: 0.3,
+                friction: 0.1,
+                density: 0.001,
+                render: {
+                    fillStyle: colors[index % colors.length]
+                },
+                label: category
+            });
+
+            blocks.push(block);
+        });
+
+        Composite.add(world, [...walls, ...blocks]);
+
+        // Add top wall after blocks have fallen
+        setTimeout(() => {
+            Composite.add(world, topWall);
+        }, 1000);
+
+        // Mouse interaction with reduced shaking
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                damping: 1,
+                render: { visible: false }
+            }
+        });
+
+        Composite.add(world, mouseConstraint);
+        render.mouse = mouse;
+
+        // Track mouse state to prevent hover-dragging
+        let isMousePressed = false;
+        let canGrab = true;
+        let isActiveDrag = false; // Only true when actively dragging a body
+
+        // Force release helper function
+        function forceRelease() {
+            mouseConstraint.body = null;
+            mouseConstraint.constraint.bodyB = null;
+            mouse.button = -1; // Reset mouse button state
+            canGrab = false; // Prevent grabbing until next click
+            isActiveDrag = false; // No longer actively dragging
+        }
+
+        // Track actual mouse press/release
+        render.canvas.addEventListener('mousedown', (e) => {
+            isMousePressed = true;
+            canGrab = true;
+        });
+
+        render.canvas.addEventListener('mouseup', () => {
+            isMousePressed = false;
+            canGrab = false;
+            isActiveDrag = false;
+        });
+
+        // When mouse leaves canvas, force release and disable grabbing
+        render.canvas.addEventListener('mouseleave', () => {
+            isMousePressed = false;
+            forceRelease();
+        });
+
+        // When mouse enters, ensure we're in a clean state
+        render.canvas.addEventListener('mouseenter', () => {
+            if (!isMousePressed) {
+                forceRelease();
+            }
+        });
+
+        // Override Matter.js's mouse constraint to only work when properly clicked
+        Events.on(mouseConstraint, 'startdrag', (event) => {
+            if (!canGrab || !isMousePressed) {
+                // Prevent drag if mouse isn't actually pressed
+                mouseConstraint.body = null;
+                mouseConstraint.constraint.bodyB = null;
+                isActiveDrag = false;
+            } else {
+                // Valid drag started
+                isActiveDrag = true;
+            }
+        });
+
+        // Clear active drag flag when drag ends naturally
+        Events.on(mouseConstraint, 'enddrag', () => {
+            isActiveDrag = false;
+        });
+
+        // Check if dragged rectangle crosses boundaries - ONLY during active drag
+        Events.on(engine, 'beforeUpdate', () => {
+            // Only check boundaries if we're actively dragging
+            if (isActiveDrag && mouseConstraint.body) {
+                const vertices = mouseConstraint.body.vertices;
+                let outsideBounds = false;
+
+                // Use a tolerance buffer to avoid triggering on rectangles just touching walls
+                // This allows rectangles resting against walls to still be draggable
+                const tolerance = 10; // pixels
+
+                // Check if any vertex is significantly outside the container bounds
+                for (let vertex of vertices) {
+                    if (vertex.y < -tolerance ||
+                        vertex.x < -tolerance ||
+                        vertex.x > width + tolerance) {
+                        outsideBounds = true;
+                        break;
+                    }
+                }
+
+                // Release and disable grabbing if outside bounds
+                if (outsideBounds) {
+                    forceRelease();
+                }
+            }
+        });
+
+        // Add labels
+        const labelFontSize = Math.max(8, Math.min(11, blockHeight * 0.22));
+        Events.on(render, 'afterRender', () => {
+            const context = render.context;
+            const isDark = document.body.classList.contains('dark-mode');
+
+            blocks.forEach((block) => {
+                const pos = block.position;
+                const angle = block.angle;
+
+                context.save();
+                context.translate(pos.x, pos.y);
+                context.rotate(angle);
+
+                context.fillStyle = isDark ? '#000000' : '#ffffff';
+                context.font = `${labelFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.fillText(block.label, 0, 0);
+
+                context.restore();
+            });
+        });
+
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const newWidth = container.clientWidth;
+            const newHeight = container.clientHeight;
+
+            // Update render dimensions
+            render.canvas.width = newWidth;
+            render.canvas.height = newHeight;
+            render.options.width = newWidth;
+            render.options.height = newHeight;
+
+            // Update walls positions
+            Composite.remove(world, walls);
+            Composite.remove(world, topWall);
+
+            const newWalls = [
+                Bodies.rectangle(newWidth / 2, newHeight + wallThickness / 2, newWidth, wallThickness, {
+                    isStatic: true,
+                    render: { fillStyle: document.body.classList.contains('dark-mode') ? '#000000' : '#ffffff' }
+                }),
+                Bodies.rectangle(-wallThickness / 2, newHeight / 2, wallThickness, newHeight, {
+                    isStatic: true,
+                    render: { fillStyle: document.body.classList.contains('dark-mode') ? '#000000' : '#ffffff' }
+                }),
+                Bodies.rectangle(newWidth + wallThickness / 2, newHeight / 2, wallThickness, newHeight, {
+                    isStatic: true,
+                    render: { fillStyle: document.body.classList.contains('dark-mode') ? '#000000' : '#ffffff' }
+                })
+            ];
+
+            const newTopWall = Bodies.rectangle(newWidth / 2, -wallThickness / 2, newWidth, wallThickness, {
+                isStatic: true,
+                render: { fillStyle: document.body.classList.contains('dark-mode') ? '#000000' : '#ffffff' }
+            });
+
+            walls.length = 0;
+            walls.push(...newWalls);
+            Composite.add(world, [...newWalls, newTopWall]);
+            Object.assign(topWall, newTopWall);
+        });
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // Update canvas background
+            render.options.background = isDark ? '#000000' : '#ffffff';
+            
+            // Update wall colors
+            walls.forEach(wall => {
+                wall.render.fillStyle = isDark ? '#000000' : '#ffffff';
+            });
+            topWall.render.fillStyle = isDark ? '#000000' : '#ffffff';
+            
+            // Update block colors
+            const darkColors = ['#ffffff', '#e6e6e6', '#cccccc', '#b3b3b3', '#999999'];
+            const lightColors = ['#000000', '#1a1a1a', '#333333', '#4d4d4d', '#666666'];
+            
+            blocks.forEach((block, index) => {
+                block.render.fillStyle = isDark ? darkColors[index % darkColors.length] : lightColors[index % lightColors.length];
+            });
+        }
+
+        // Button handlers
+        function handleStart() {
+            console.log('Start clicked');
+            // Add your navigation logic here
+        }
+
+        function handleCategories() {
+            console.log('Categories clicked');
+            // Add your navigation logic here
+        }
+
+        // Prevent scrolling when dragging
+        render.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        } // End initPhysics function
+
+        // Start physics when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPhysics);
+        } else {
+            initPhysics();
+        }
+    </script>
+</body>
+</html>
