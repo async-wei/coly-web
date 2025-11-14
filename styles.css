@@ -21,6 +21,23 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+#liquid-ether-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#liquid-ether-background canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 body.dark-mode {
     background: #000000;
     color: #ffffff;
@@ -68,6 +85,14 @@ body.dark-mode nav a {
 
 nav a:hover {
     opacity: 0.6;
+}
+
+.nav-left {
+    position: absolute;
+    left: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
 }
 
 .nav-right {
@@ -139,6 +164,78 @@ body.dark-mode .github-btn svg {
     fill: #ffffff;
 }
 
+.fx-toggle {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+body.dark-mode .fx-toggle {
+    background: transparent;
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.fx-label {
+    font-weight: 400;
+    font-style: italic;
+    user-select: none;
+}
+
+.fx-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: #cccccc;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+body.dark-mode .fx-switch {
+    background: #555555;
+}
+
+.fx-toggle.active .fx-switch {
+    background: #000000;
+}
+
+body.dark-mode .fx-toggle.active .fx-switch {
+    background: #ffffff;
+}
+
+.fx-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+body.dark-mode .fx-slider {
+    background: #000000;
+}
+
+.fx-toggle.active .fx-slider {
+    transform: translateX(16px);
+    background: #ffffff;
+}
+
+body.dark-mode .fx-toggle.active .fx-slider {
+    background: #000000;
+}
+
 .container {
     display: flex;
     height: 100vh;
@@ -150,28 +247,21 @@ body.dark-mode .github-btn svg {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0 clamp(15px, 5vw, 80px);
-    margin-top: -100px;
-}
-
-@media (max-width: 1200px) {
-    .left-side {
-        margin-top: 0;
-    }
+    padding: 0 clamp(20px, 6vw, 80px);
+    margin-top: clamp(-50px, -8vh, -100px);
+    min-width: 0; /* Prevent flex item from overflowing */
 }
 
 .title {
     font-weight: 300;
     letter-spacing: -1px;
-    margin-bottom: clamp(20px, 3vh, 40px);
+    margin-bottom: 40px;
     line-height: 1.1;
     margin-left: -3px;
-    max-width: 100%;
-    overflow: hidden;
 }
 
 .title-large {
-    font-size: clamp(28px, 10vw, 160px);
+    font-size: clamp(40px, 10vw, 160px);
     display: flex;
     justify-content: space-between;
     font-family: 'Compressa VF', sans-serif;
@@ -179,7 +269,7 @@ body.dark-mode .github-btn svg {
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
-    max-width: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -190,20 +280,19 @@ body.dark-mode .github-btn svg {
 }
 
 .title-small {
-    font-size: clamp(16px, 4vw, 60px);
+    font-size: clamp(20px, 4vw, 60px);
     display: block;
 }
 
 
 .buttons {
     display: flex;
-    gap: clamp(10px, 2vw, 20px);
-    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .btn {
-    padding: clamp(10px, 2vh, 16px) clamp(24px, 4vw, 40px);
-    font-size: clamp(14px, 2vw, 25px);
+    padding: clamp(12px, 1.5vw, 16px) clamp(24px, 3vw, 40px);
+    font-size: clamp(16px, 2vw, 25px);
     letter-spacing: 0.5px;
     cursor: pointer;
     border: 1.7px solid #000000;
@@ -211,7 +300,6 @@ body.dark-mode .github-btn svg {
     color: #000000;
     transition: all 0.3s ease;
     font-weight: 400;
-    min-width: fit-content;
 }
 
 body.dark-mode .btn {
@@ -234,14 +322,13 @@ body.dark-mode .btn:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: clamp(15px, 5vw, 80px);
+    padding: clamp(20px, 8vw, 80px);
+    min-width: 0;
 }
 
 #physics-container {
-    width: 100%;
-    max-width: 500px;
-    height: 600px;
-    max-height: 70vh;
+    width: min(500px, 90vw);
+    height: min(600px, 60vh);
     border: 1px solid #000000;
     position: relative;
     background: #ffffff;
@@ -275,38 +362,41 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 150%;
+    width: 100%;
     max-width: 2000px;
     margin: 0 auto;
-    padding: 80 80px;
-    gap: 0;
+    padding: 0 clamp(20px, 6vw, 80px);
+    gap: clamp(0px, 2vw, 20px);
 }
 
 .about-column {
     flex: 1;
-    max-width: 450px;
+    max-width: 400px;
 }
 
 .about-spacer {
-    flex: 0.5;
-    min-width: 250px;
-    max-width: 350px;
+    flex: 1;
+    min-width: 450px;
     position: relative;
-    height: 350px;
+    height: clamp(450px, 55vh, 700px);
+    overflow: visible;
+    z-index: 999;
 }
 
 #ascii-art-container {
     position: relative;
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    z-index: 999;
 }
 
 #ascii-art-container canvas {
     position: absolute;
-    left: 10%;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    left: -12%;
+    top: -10%;
+    width: 120%;
+    height: 120%;
     image-rendering: optimizeSpeed;
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
@@ -314,6 +404,7 @@ canvas {
     image-rendering: optimize-contrast;
     image-rendering: crisp-edges;
     image-rendering: pixelated;
+    z-index: 999;
 }
 
 #ascii-art-container pre {
@@ -330,234 +421,122 @@ canvas {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    z-index: 9;
+    z-index: 999;
     mix-blend-mode: difference;
 }
 
 .about-column h2 {
-    font-size: clamp(24px, 4vw, 48px);
+    font-size: clamp(28px, 5vw, 64px);
     font-weight: 300;
     letter-spacing: -0.5px;
-    margin-bottom: 20px;
+    margin-bottom: clamp(15px, 2vh, 20px);
 }
 
 .about-column p {
-    font-size: clamp(14px, 1.5vw, 18px);
+    font-size: clamp(14px, 1.8vw, 20px);
     line-height: 1.6;
 }
 
-/* Large screens - start transitioning */
+/* Tablet and smaller laptop screens */
 @media (max-width: 1400px) {
     .left-side {
-        padding: 0 60px;
-    }
-
-    .right-side {
-        padding: 60px;
-    }
-}
-
-/* Medium-large screens */
-@media (max-width: 1200px) {
-    .container {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .left-side {
-        padding: 40px;
-        min-height: 50vh;
-        justify-content: center;
+        padding: 0 40px;
     }
 
     .right-side {
         padding: 40px;
-        min-height: 50vh;
     }
 
     #physics-container {
-        max-width: 400px;
-        height: 500px;
-    }
-
-    .nav-right {
-        right: 20px;
-    }
-
-    .buttons {
-        flex-wrap: wrap;
+        width: min(400px, 85vw);
+        height: min(500px, 55vh);
     }
 }
 
-/* Tablets */
-@media (max-width: 992px) {
+/* Tablet portrait and smaller */
+@media (max-width: 1024px) {
     nav {
         height: 60px;
+        gap: 30px;
     }
 
-    .container {
-        padding-top: 60px;
+    nav a {
+        font-size: 16px;
     }
 
     .nav-links {
         gap: 30px;
     }
 
-    nav a {
-        font-size: 18px;
-    }
-
-    .github-btn {
-        font-size: 18px;
-        padding: 6px 12px;
-    }
-
-    .btn {
-        padding: 14px 32px;
-        font-size: 22px;
-    }
-
-    .left-side {
-        padding: 30px;
-    }
-
-    .right-side {
-        padding: 30px;
-    }
-
-    #physics-container {
-        max-width: 350px;
-        height: 450px;
-    }
-}
-
-/* Small tablets and large phones */
-@media (max-width: 768px) {
-    nav {
-        height: 60px;
-        gap: 20px;
-    }
-
-    .nav-links {
-        gap: 20px;
-    }
-
-    nav a {
-        font-size: 16px;
-    }
-
-    .github-btn span {
-        display: none;
+    .nav-left {
+        left: 20px;
     }
 
     .nav-right {
-        right: 15px;
-        gap: 10px;
+        right: 20px;
+        gap: 12px;
     }
 
-    .btn {
-        padding: 12px 28px;
-        font-size: 18px;
+    .fx-toggle {
+        padding: 6px 12px;
+        font-size: 16px;
     }
 
-    .left-side {
-        padding: 20px;
+    .github-btn {
+        padding: 6px 12px;
+        font-size: 16px;
     }
 
-    .right-side {
-        padding: 20px;
-    }
-
-    #physics-container {
-        max-width: 300px;
-        height: 400px;
-    }
-}
-
-/* Mobile phones */
-@media (max-width: 576px) {
-    nav {
-        height: 50px;
-        gap: 10px;
-    }
-
-    .nav-links {
-        gap: 15px;
-    }
-
-    nav a {
-        font-size: 14px;
-    }
-
-    .theme-toggle {
-        padding: 8px;
-    }
-
-    .theme-toggle svg,
-    .github-btn svg {
+    .github-btn svg,
+    .theme-toggle svg {
         width: 18px;
         height: 18px;
     }
 
-    .nav-right {
-        right: 10px;
-        gap: 8px;
-    }
-
     .container {
-        padding-top: 50px;
-    }
-
-    .buttons {
+        padding-top: 60px;
         flex-direction: column;
-        gap: 15px;
-    }
-
-    .btn {
-        padding: 10px 24px;
-        font-size: 16px;
-        width: 100%;
+        height: auto;
+        min-height: 100vh;
     }
 
     .left-side {
-        padding: 20px 15px;
+        flex: none;
+        padding: 40px 30px;
+        margin-top: 0;
+        min-height: auto;
+        justify-content: flex-start;
+        padding-top: 60px;
     }
 
     .right-side {
-        padding: 20px 15px;
+        flex: none;
+        padding: 40px 30px;
+        min-height: auto;
     }
 
     #physics-container {
-        max-width: 100%;
-        width: 100%;
-        height: 350px;
-    }
-}
-
-/* Very small phones */
-@media (max-width: 400px) {
-    .btn {
-        font-size: 14px;
-        padding: 8px 20px;
+        width: min(450px, 90vw);
+        height: min(500px, 50vh);
     }
 
-    #physics-container {
-        height: 300px;
-    }
-}
-
-/* About page responsive styles */
-@media (max-width: 1200px) {
+    /* About page adjustments */
     .about-columns {
         flex-direction: column;
-        gap: 40px;
+        padding: 40px 30px;
+        gap: 60px;
+    }
+
+    .about-column {
+        max-width: 100%;
+        width: 100%;
     }
 
     .about-spacer {
-        min-width: 100%;
-        max-width: 100%;
-        height: 300px;
+        flex: none;
+        width: 100%;
+        min-width: auto;
+        height: clamp(300px, 45vh, 500px);
         order: 2;
     }
 
@@ -568,25 +547,202 @@ canvas {
     .about-column:last-child {
         order: 3;
     }
+
+    .about-column h2 {
+        font-size: clamp(36px, 8vw, 64px);
+    }
+
+    .about-column p {
+        font-size: clamp(16px, 2.5vw, 20px);
+    }
 }
 
+/* Mobile landscape and smaller tablets */
 @media (max-width: 768px) {
+    nav {
+        height: 50px;
+        gap: 20px;
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    .nav-left {
+        left: 15px;
+    }
+
+    .nav-right {
+        right: 15px;
+        gap: 8px;
+    }
+
+    .fx-toggle {
+        padding: 6px 10px;
+        font-size: 14px;
+        gap: 8px;
+    }
+
+    .fx-switch {
+        width: 32px;
+        height: 18px;
+    }
+
+    .fx-slider {
+        width: 14px;
+        height: 14px;
+    }
+
+    .fx-toggle.active .fx-slider {
+        transform: translateX(14px);
+    }
+
+    .github-btn span {
+        display: none;
+    }
+
+    .container {
+        padding-top: 50px;
+    }
+
+    .left-side {
+        padding: 30px 20px;
+        padding-top: 40px;
+    }
+
+    .right-side {
+        padding: 30px 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    #physics-container {
+        width: min(400px, 95vw);
+        height: min(450px, 45vh);
+    }
+
+    /* About page - hide ASCII art on mobile */
     .about-columns {
-        padding: 0 40px;
+        padding: 30px 20px;
+        gap: 40px;
     }
 
     .about-spacer {
-        height: 250px;
+        display: none;
+    }
+
+    .about-column h2 {
+        font-size: clamp(28px, 7vw, 48px);
+    }
+
+    .about-column p {
+        font-size: clamp(14px, 2.5vw, 18px);
+        line-height: 1.5;
     }
 }
 
-@media (max-width: 576px) {
-    .about-columns {
-        padding: 0 20px;
+/* Mobile portrait */
+@media (max-width: 480px) {
+    nav {
+        height: 50px;
+        gap: 10px;
     }
 
-    .about-spacer {
-        height: 200px;
+    nav a {
+        font-size: 12px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    .nav-left {
+        left: 10px;
+    }
+
+    .nav-right {
+        right: 10px;
+        gap: 6px;
+    }
+
+    .fx-toggle {
+        padding: 6px 8px;
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .fx-switch {
+        width: 28px;
+        height: 16px;
+    }
+
+    .fx-slider {
+        width: 12px;
+        height: 12px;
+    }
+
+    .fx-toggle.active .fx-slider {
+        transform: translateX(12px);
+    }
+
+    .theme-toggle,
+    .github-btn {
+        padding: 6px;
+    }
+
+    .github-btn svg,
+    .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .left-side {
+        padding: 20px 15px;
+        padding-top: 30px;
+    }
+
+    .right-side {
+        padding: 20px 15px;
+    }
+
+    .title {
+        margin-bottom: 30px;
+    }
+
+    .buttons {
+        gap: 12px;
+    }
+
+    #physics-container {
+        width: min(350px, 95vw);
+        height: min(400px, 40vh);
+    }
+
+    /* About page */
+    .about-columns {
+        padding: 20px 15px;
+        gap: 30px;
+    }
+
+    .about-column h2 {
+        font-size: clamp(24px, 6vw, 36px);
+        margin-bottom: 15px;
+    }
+
+    .about-column p {
+        font-size: clamp(13px, 2.2vw, 16px);
     }
 }
 

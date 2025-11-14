@@ -75,7 +75,7 @@
                 <p>
                     Studying for the USNCO can be a repetitive and tedious process, with past exams being grouped into 60-question, time-consuming tests. 
                     To make studying more efficient and rewarding, I've created this website which contains 3000+ organized USNCO MCQ questions released by the ACS from 
-                    2000 to 2025 -- all easily accessible through a nice UI. I hope you will give it a try!
+                    2000 to 2025 -- all easily accessible through a nice UI. I hope you will give it a try.
                 </p>
             </div>
 
@@ -88,16 +88,28 @@
                 <p>
                     The problems were extracted as .png images through a Python program using the PyMuPDF and pdfplumber libraries, 
                     automatically sorted by question topics, and then displayed onto an HTML/CSS/JS Website. The website is written in basic HTML/CSS
-                    with dynamic components using various Javascript Libraries such as Three.js and Matter.js.
+                    with dynamic components using various Javascript Libraries such as Three.js and Matter.js from ReactBits. This entire project was made in 2 days!
                 </p>
             </div>
         </div>
     </div>
 
     <script>
+        // Dark Mode System - Initialize FIRST
+        (function initializeDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+
         // Dark mode toggle
         function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+
+            // Save to localStorage for persistence across pages
+            localStorage.setItem('darkMode', isDark);
         }
 
         // ASCII Art Effect - Ported from ReactBits
@@ -123,7 +135,7 @@
                     this.domElement = document.createElement('div');
                     this.domElement.style.position = 'absolute';
                     this.domElement.style.top = '0';
-                    this.domElement.style.left = '0';
+                    this.domElement.style.left = '5%';
                     this.domElement.style.width = '100%';
                     this.domElement.style.height = '100%';
 
@@ -403,13 +415,21 @@
 
                 if (width > 0 && height > 0) {
                     console.log('Initializing ASCII art...');
+
+                    // Calculate responsive font sizes - SMALLER on smaller screens
+                    const viewportWidth = window.innerWidth - 700;
+                    const scaleFactor = viewportWidth / 1920; // Scale based on viewport (1920px = 100%)
+                    const asciiFontSize = Math.max(1, Math.floor(10 * scaleFactor));
+                    const textFontSize = Math.max(60, Math.floor(200 * scaleFactor));
+                    const planeBaseHeight = Math.max(6, Math.floor(15 * scaleFactor));
+
                     const ascii = new CanvAscii(
                         {
                             text: 'CHEM!',
-                            asciiFontSize: 6,
-                            textFontSize: 100,
+                            asciiFontSize: asciiFontSize,
+                            textFontSize: textFontSize,
                             textColor: '#fdf9f3',
-                            planeBaseHeight: 9,
+                            planeBaseHeight: planeBaseHeight,
                             enableWaves: true
                         },
                         container,
@@ -420,11 +440,38 @@
                     console.log('ASCII art initialized successfully!');
 
                     // Handle window resize
+                    let resizeTimeout;
                     window.addEventListener('resize', () => {
-                        const { width: w, height: h } = container.getBoundingClientRect();
-                        if (w > 0 && h > 0) {
-                            ascii.setSize(w, h);
-                        }
+                        clearTimeout(resizeTimeout);
+                        resizeTimeout = setTimeout(() => {
+                            const { width: w, height: h } = container.getBoundingClientRect();
+                            if (w > 0 && h > 0) {
+                                ascii.setSize(w, h);
+
+                                // Update font sizes on resize - SMALLER on smaller screens
+                                const newViewportWidth = window.innerWidth;
+                                const newScaleFactor = newViewportWidth / 1920;
+                                const newAsciiFontSize = Math.max(4, Math.floor(10 * newScaleFactor));
+                                const newTextFontSize = Math.max(60, Math.floor(200 * newScaleFactor));
+                                const newPlaneBaseHeight = Math.max(6, Math.floor(15 * newScaleFactor));
+
+                                ascii.asciiFontSize = newAsciiFontSize;
+                                ascii.textFontSize = newTextFontSize;
+                                ascii.planeBaseHeight = newPlaneBaseHeight;
+
+                                // Update filter and canvas settings
+                                if (ascii.filter) {
+                                    ascii.filter.fontSize = newAsciiFontSize;
+                                    ascii.filter.reset();
+                                }
+
+                                if (ascii.textCanvas) {
+                                    ascii.textCanvas.fontSize = newTextFontSize;
+                                    ascii.textCanvas.font = `600 ${newTextFontSize}px ${ascii.textCanvas.fontFamily}`;
+                                    ascii.textCanvas.resize();
+                                }
+                            }
+                        }, 250);
                     });
                 } else {
                     console.warn('Container has no dimensions, retrying...');

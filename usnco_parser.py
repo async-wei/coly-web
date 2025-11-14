@@ -484,10 +484,10 @@ class USNCOParser:
 def main():
     """Main execution function"""
     # Configuration
-    exam_type = "local"  # "local" or "national"
-    for exam_year in range(2022,2023):
+    exam_type = "national"  # "local" or "national"
+    for exam_year in range(2000,2026):
        #pdf_path = f"usnco-exams/{exam_year}-usnco-{exam_type}-exam.pdf" for local exam parsing
-        pdf_path = f"usnco-exams/{exam_year}-usnco-{exam_type}-exam.pdf"
+        pdf_path = f"usnco-exams/{exam_year}-usnco-{exam_type}-exam-part-i.pdf"
 
         # Create output directory: parsed_exams/YEAR/
         output_dir = Path("parsed_exams") / str(exam_year)

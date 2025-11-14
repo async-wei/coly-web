@@ -231,9 +231,9 @@ class QuestionImageExtractor:
 def main():
     """Main execution"""
     # Configuration
-    exam_type = "local"  # "local" or "national"
-    for exam_year in range(2022,2023):
-        pdf_path = f"usnco-exams/{exam_year}-usnco-{exam_type}-exam.pdf"
+    exam_type = "national"  # "local" or "national"
+    for exam_year in range(2000,2026):
+        pdf_path = f"usnco-exams/{exam_year}-usnco-{exam_type}-exam-part-i.pdf"
         json_path = Path("parsed_exams") / str(exam_year) / f"{exam_type}_parsed.json"
 
         # Check files exist
