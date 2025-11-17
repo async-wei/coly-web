@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' https://*.dropbox.com https://*.dropboxusercontent.com data: blob:; font-src 'self' https://fonts.gstatic.com https://res.cloudinary.com; connect-src 'self' https://*.dropbox.com https://*.dropboxusercontent.com;">
+    <title>Questions - Chemistry Olympiad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="questions.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="website.html">HOME</a>
+            <a href="about.html">ABOUT</a>
+            <a href="categories.html">CATEGORIES</a>
+            <a href="https://www.acs.org" target="_blank">ACS</a>
+        </div>
+        <div class="nav-right">
+            <button class="theme-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+            <a href="https://github.com" class="github-btn" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                <span>Github</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="questions-container">
+        <!-- Left Section -->
+        <div class="questions-section left-section">
+            <div class="question-info">
+                <h2 id="exam-info" class="exam-title">Loading...</h2>
+                <p id="question-counter" class="total-questions">Total questions: ...</p>
+                <p id="current-question-number" class="current-question">Question 1</p>
+                <p id="question-details" class="question-meta"></p>
+            </div>
+        </div>
+        <!-- Center Section (Question Image) -->
+        <div class="questions-section center-section">
+            <div class="image-container">
+                <img id="question-image" src="" alt="Question" />
+            </div>
+            <!-- Answer Buttons -->
+            <div class="answer-buttons">
+                <button class="answer-btn" data-answer="A">A</button>
+                <button class="answer-btn" data-answer="B">B</button>
+                <button class="answer-btn" data-answer="C">C</button>
+                <button class="answer-btn" data-answer="D">D</button>
+            </div>
+            <!-- Feedback -->
+            <div id="feedback" class="feedback hidden"></div>
+            <!-- Navigation -->
+            <div class="question-nav">
+                <button id="prev-btn" class="nav-btn" disabled aria-label="Previous question">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="next-btn" class="nav-btn" aria-label="Next question">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="questions-section right-section">
+            <div class="stats">
+                <h3 class="stats-title">Progress</h3>
+                <p id="score" class="score-text">Correct: 0 / 0</p>
+                <p id="percentage" class="percentage-text"></p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div id="progress-bar-correct" class="progress-bar-fill correct"></div>
+                        <div id="progress-bar-incorrect" class="progress-bar-fill incorrect"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span class="progress-label correct-label">Correct</span>
+                        <span class="progress-label incorrect-label">Incorrect</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script>
+        // Dark Mode System
+        (function initializeDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+        }
+    </script>
+</body>
+</html>
