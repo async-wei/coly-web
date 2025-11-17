@@ -108,8 +108,8 @@ python generate_dropbox_links.py --token YOUR_TOKEN
 ├── usnco_parser.py                 # PDF parsing script
 ├── question_image_extractor.py     # Image extraction script
 ├── generate_dropbox_links.py       # Dropbox link generator
-├── website.html                    # Web interface
 ├── questions.js                    # Question display logic
+├── index.html                      # Web interface
 ```
 
 ## Data Schema
@@ -162,3 +162,4 @@ python generate_dropbox_links.py --token YOUR_TOKEN
 - Image extraction requires both PDFs and parsed JSON files
 - All scripts process multiple years in a loop by default (edit `range(2000,2026)` to modify)
 - The older the exam, the more errors come from parsing
+
